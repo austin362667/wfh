@@ -331,6 +331,8 @@ if((nickname && email) && (password && info)){
         formData.append("email", email)
         formData.append("password", password)
         formData.append("info", info)
+        formData.append("photo", photo.files[0])
+
         // formData.append("photo", photo.files[0])
         var res = await window.fetch("/api/create_user", {
             body: formData,//JSON.stringify({ nickname : nickname, email : email, password : password, info: "None" }, input.files[0]),
