@@ -1,0 +1,94 @@
+.man{
+    display: flex; /*疊下去*/
+    flex-direction: row; /*列 */
+    flex-wrap: nowrap; /*繼續排下去*/
+    width: 1500px;
+	height: 300px; 
+    position: relative;
+    }
+.host{
+    display: inline-block;
+    width: 200px;
+	height: 200px;
+	line-height: 200px;
+    border: 1px dashed red;
+    background-color: blue;
+    border-radius: 150px;
+    text-align: center;
+    margin-left: 30px;
+    margin-right: 30px;
+    overflow: auto;
+}
+.container{
+    width: 260px;
+    height: 260px;
+ 
+}
+.position{
+    text-align: center;
+    margin-left: 40px;
+    bottom: 0;
+    right: 0;
+    width: 80px;
+	height: 80px;  
+}
+
+.person{
+    display: inline-block;
+    width: 200px;
+	height: 200px;
+	line-height: 200px;
+	border: 1px dashed red;
+    border-radius: 150px;
+    text-align: center;
+    margin-left: 30px;
+    margin-right: 30px;
+    overflow: auto;
+
+}
+.secondbody{
+    display: inline-block;
+    overflow: auto;
+    width:1450px;
+    height:600px;
+
+}
+.middle{
+    width:1000px;
+    height:600px;
+    overflow: auto;
+    margin-top: 20px;
+    background-color: lightpink;
+    justify-content: center;
+    float: left;
+    align-items: flex-start;
+}
+.pptmid{
+    font-size: 100px;
+    font-weight: bold;
+}
+/*.microphone{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-radius: 200px;
+    background-color: mediumslateblue;
+    width: 200px;
+	height: 200px;
+}*/
+.tasknote{
+    margin-left: 10px;
+    width: 400px;
+    height: 600px;
+    margin-top: 20px;
+
+    float: right;
+    clear: none;
+}
+
+.box{
+    margin-top: 20px;
+    height:200px;
+    width: 200px;
+    background-color: brown;
+}

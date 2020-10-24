@@ -1,0 +1,71 @@
+<html>
+    <head></head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link  rel="stylesheet" href="index.css"></link>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <body>
+      <!-- <button id="leftScroll" class="sticky-top">←</button> -->
+      <button onclick="addPostShow()" id="addPostShowBtn" class="center">+</button>
+      <!-- <button id="rightScroll" class="sticky-top">→</button> -->
+      <div class="users scrollmenu">
+      </div>
+      <div id="post" class="form-container center">
+        <form>
+          <div>
+            <input type="text" name="subject" id="subject" placeholder="Subject"/>
+          </div>
+          <div>
+            <label>Type:</label>
+            <select type="select" name="type" id="type">
+              <option value="om">Office Meeting</option>
+              <option value="vc">Video Conference</option>
+              <option value="tsk">Task</option>
+            </select>
+          </div>
+          <div>
+            <input name="detail" id="detail" style="resize: none;  height: 5em;" placeholder="Detail"></input>
+            <textarae />
+          </div>
+          <div>
+            <input ype="text" name="assignto" id="assignto" placeholder="Assign To ... use '@'"/>
+          </div>
+          <div>
+            <input type="text" name="location" id="location" placeholder="Location"/>
+          </div>
+          <div>
+            <label>Start At:</label>
+            <input type="date" name="startat" id="startat"/>
+          </div>
+          <div>
+            <label>End At:</label>
+            <input type="date" name="endat" id="endat"/>
+          </div>
+          <div>
+            <!-- <label>Priority:</label>
+            <select type="select" name="important" id="important">
+              <option value="y">Important</option>
+              <option value="n">Not Important</option>
+            </select>
+            <select type="select" name="urgent" id="urgent">
+              <option value="y">Urgent</option>
+              <option value="n">Not Urgent</option>
+            </select>
+          </div> -->
+        </form>
+          <button id="createTask">Assign</button>
+      
+      </div>
+
+
+<div id="msg" class="center list"></div>
+
+
+    </body>
+    <script src="index.js"></script>
+    <script>
+      const USER_ID = '<%= userId %>'
+    </script>
+</html>
+
