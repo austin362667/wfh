@@ -48,9 +48,19 @@ const db = require("./queries.js")
   
 const createUser = async (request, response) => {
     let formData = request.body
-    console.log('form data', formData)
+    var tmp_path = request.file.path;
 
-    db.createObject('USER', formData)
+    /** The original name of the uploaded file
+        stored in the variable "originalname". **/
+    var target_path = 'public/' + request.file.path+'.jpg';
+  
+    /** A better way to copy the uploaded file. **/
+    var src = fs.createReadStream(tmp_path);
+    var dest = fs.createWriteStream(target_path);
+    src.pipe(dest);
+    console.log('user data', {...formData, 'photo': request.file.path})
+
+    db.createObject('USER', {...formData, 'photo': request.file.path})
 }
 
 const loginUser = async (request, response) => {
