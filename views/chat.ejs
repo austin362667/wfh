@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>RETA 聊天室</title>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body >
+  <!-- <h1 id='title' >Chatting Booth | 尬聊小站</h1> -->
+  <ul class="pages">
+    <li class="chat page">
+    <!-- <div class='gameButtons'>
+       <button class='joinGame' placeholder="Join Game">進入</button>
+       <br>
+       <button class='leaveGame' placeholder="Leave Game">離開</button>
+       <br>
+    </div> -->
+      <div class="chatArea">
+        <ul class="messages"></ul>
+      </div>
+      <div class="chat-form sticky" id="chat-form">
+        <div class="msg-box">
+          <span class="btn-group-left">
+            <a href='/'><i class="fa fa-arrow-left" ></i></a>
+          </span>
+          <input type="text" class="ip-msg" placeholder="輸入訊息.." />
+          <span class="btn-group">
+            <i class="fa fa-paper-plane inputMessageBtn"></i>
+          </span>
+        </div>
+        <!-- <input class="inputMessage" type="text" placeholder="輸入訊息.." required> -->
+        <!-- <button class="inputMessageBtn">發送</button> -->
+      </div>
+      <!-- <div class="inputArea">
+        <input class="inputMessage" placeholder="這裡輸入...    [TIP]說嗨就沒有然後了喔!"/>
+        <button type="submit" class="btn" style="float: right;">Send</button>
+      </div> -->
+
+    </li>
+      <li class="usersList">
+    <div class="usersList">
+      <ul class="Users"></ul>
+        </div>
+    <!-- <li class="login page">
+      <div class="form">
+        <h3 class="title">大家都叫你甚麼呢？</h3>
+        <input class="usernameInput" type="text" maxlength="14" />
+        <button class="enterBtn">進入</button>
+      </div>
+    </li> -->
+  </ul>
+
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/room3.js"></script>
+<script>// When the user scrolls the page, execute myFunction
+// When the user scrolls the page, execute myFunction
+// window.onscroll = function() {myFunction()};
+
+// Get the header
+var header = document.getElementById("chat-form");
+
+// Get the offset position of the navbar
+var sticky = header.offsetTop;
+
+// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+// function myFunction() {
+//   if (window.pageYOffset > sticky) {
+//     header.classList.add("sticky");
+//   } else {
+//     header.classList.remove("sticky");
+//   }
+// }
+</script>
+<!-- <script src="./register_sw.js"></script> -->
+<script>
+  const ROOM_ID = '<%= roomId %>'
+  username = '<%= username %>'
+  console.log(ROOM_ID)
+  console.log(username)
+</script>
+<script>
+  const Post = {}
+  // Post.id = async function () {
+  //  var data;
+  //           var res = await window.fetch(`/api/chats/${ROOM_ID}`, {
+  //               method: "GET",
+  //           })
+  //           res.ok ? data = await res.json() : data = {};
+  //           console.log(data[0]);
+  //       return data[0];
+  //       }
+  // Post.show = async function () {
+  // let post;
+
+  //   console.log(ROOM_ID);
+  //         // let title = document.getElementById('title');
+  //         // post = await Post.id();
+  //         // console.log('title', post.info)
+  //         // title.innerHTML = post.info;
+  //       }
+
+        Post.messages = async function () {
+
+    //   var form = new FormData();
+    //   form.append("title", title)
+    
+      var res = await window.fetch('/api/messages', {
+            body: JSON.stringify({ pid : ROOM_ID, user : username, content : message }),
+            method: 'post',
+            headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+  })
+      console.log(res.json())
+    };
+
+
+
+</script>
+<!-- <script src="./sw.js"></script> -->
+<noscript>Ooops!您好像沒有啟用javascript.</noscript>
+</body>
+<!-- <footer>
+  <p>an <a href="https://www.instagram.com/astn.0820_/ " target="_blank" style="text-decoration:none;">Austin Liu</a> Production</p>
+  <p>Chatting Booth © 2020</p>
+</footer> -->
+</html>

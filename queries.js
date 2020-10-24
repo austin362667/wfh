@@ -18,6 +18,22 @@ const createObject = async (otype, data) => {
 
 }
 
+const deleteObject = async (id) => {
+
+    const results =  await pool.query("DELETE FROM objects WHERE id = $1", [id])
+
+    return results.rows
+
+}
+
+// const updateObject = async (id) => {
+
+//     const results =  await pool.query("UPDATE objects SET column1 = value1, WHERE id = $1", [id])
+
+//     return results.rows
+
+// }
+
 const retrieveObject = async (id) => {
 
     const results = await pool.query('SELECT * FROM objects WHERE id = $1', [id])
@@ -50,6 +66,53 @@ const getUsers = async () => {
 
 }
 
+//chat
+const getChatByUsersIds = async ( userA, userB ) => {
+
+    const results = await pool.query('SELECT * FROM chats WHERE (user_a = $1 AND user_b = $2) OR (user_a = $2 AND user_b = $1)', [userA, userB])
+   
+       return results
+   }
+
+const createChat = async (userA, userB) => {
+
+    let info = ''
+    // const { info, userA, userB } = request.body
+    console.log(info, userA, userB)
+    var preResults = await getChatByUsersIds( userA, userB )
+    console.log('CNT: ', preResults.rowCount)
+    // var user = await getUserById(userA);
+    
+    if( preResults.rowCount === 0){
+        preResults = await pool.query('INSERT INTO chats (info, user_a, user_b) VALUES ($1, $2, $3) RETURNING cid', [info, userA, userB] )
+    }
+      // preResults = await getChatByUsersIds( userA, userB )
+      // var results = preResults
+      return preResults.rows[0].cid
+ 
+  }
+
+//Messages
+const getMessagesByPostId = async (id) => {
+    // const id = request.params.id;
+  // console.log('log', id)
+  const results = await pool.query('SELECT * FROM messages WHERE pid = $1 ORDER BY created_at ASC', [id])
+
+      console.log(results.rowCount)
+      return results.rows
+  }
+  
+  const createMessages = async (pid, user, content) => {
+    // console.log(request.body)
+  // console.log(pid, user, content)
+    const result = await pool.query('INSERT INTO messages (pid, username, message) VALUES ($1, $2, $3)', [pid, user, content], (error, results) => {
+      if (error) {
+        throw error
+      }
+      // response.status(201).send(`Post added with ID: ${result.insertId}`)
+    })
+  }
+
 //association
 const assocAdd = async (id1, atype, id2) => {
 
@@ -78,6 +141,14 @@ const assocTimeRange = async (id1, atype, high, low) => {
 
 
 
+const deleteAssocs = async (id, atype) => {
+
+    const results =  await pool.query("DELETE FROM assocs WHERE (id1 = $1 AND atype = $2)", [id, atype])
+
+    return results.rows
+
+}
+
 
 
 
@@ -89,5 +160,10 @@ module.exports = {
     getUsers,
     assocAdd,
     assocGet,
-    assocTimeRange
+    assocTimeRange,
+    deleteObject,
+    getMessagesByPostId,
+    createChat,
+    createMessages,
+    deleteAssocs
 }

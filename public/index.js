@@ -33,9 +33,12 @@ async function createTask(){
   let subject = document.querySelector('#subject').value;
   let assigntoUsers = document.querySelector('#assignto').value;
   let detail = document.querySelector('#detail').value;
+  let type= document.querySelector('#type').value;
   let startat = document.querySelector('#startat').value;
   let endat = document.querySelector('#endat').value;
   let location = document.querySelector('#location').value;
+  let important = document.querySelector('#important').value;
+  // let urgent = document.querySelector('#urgent').value;
 
   let host = "Austin";
   var myRe = /(@[A-Z][a-z]+)/g;
@@ -46,9 +49,12 @@ async function createTask(){
   formData.append('subject', subject);
   formData.append('assignto', myArray.input);
   formData.append('detail', detail);
-
+  formData.append('type', type);
   formData.append('startat', startat);
   formData.append('endat', endat);
+  formData.append('important', important);
+  // formData.append('urgent', urgent);
+
 
   formData.append('location', location);
 
@@ -60,6 +66,21 @@ async function createTask(){
 
   
     console.log('createTaskres', res.ok);
+
+}
+
+async function deleteTask(id){
+
+  var formData = new FormData();
+  formData.append('id', id);
+
+  var res = await window.fetch("/api/delete_task", {
+    body: formData,
+    method: 'POST',
+    redirect:"follow",
+    });
+  console.log("deleteTask")
+
 
 }
 
@@ -102,7 +123,7 @@ function dateCompare(a, b){
   return 0;
 }
 
-console.table(tasks)
+// console.table(tasks)
   if(tasks.length > 0){
     for(task of tasks){
       const card = document.createElement('div');
@@ -111,11 +132,13 @@ console.table(tasks)
       const endat = document.createElement('a');
       const director = document.createElement('a');
       const location = document.createElement('a');
-      card.appendChild(director);
-      card.appendChild(title);
-      card.appendChild(detail);
-      card.appendChild(endat);
-      card.appendChild(location);
+      let vcBtn = document.createElement('a');
+      const delBtn = document.createElement('button');
+      const important = document.createElement('div');
+      // const urgent = document.createElement('div');
+
+
+
       card.className = "card";
       card.id = task.id;
       if(task.data.subject){
@@ -127,6 +150,7 @@ console.table(tasks)
         detail.className = 'detail'
         console.log(task.data.detail)
       }
+
       if(task.data.director){
         director.innerHTML = task.data.director + ' :';
         director.className = 'director'
@@ -135,14 +159,68 @@ console.table(tasks)
         location.innerHTML = 'at ' + task.data.location;
         location.className = 'location'
       }
+            if(task.data.location){
+        location.innerHTML = 'at ' + task.data.location;
+        location.className = 'location'
+      }
       if(task.data.endat){
         var todayDate = new Date();
         if(new Date(task.data.endat) <= todayDate){
           endat.style = 'color:red;'
+          card.style = 'border-color:red;'
+        }else{
+          card.style = 'border:none;'
         }
         endat.className = 'endat'
         endat.innerHTML = task.data.endat;
       }
+      if(task.data.important){
+        if(task.data.important=='y'){
+          important.className = "tag tag-purple"
+          important.innerHTML = 'important'
+        // }else{
+        //   important.className = "tag tag-teal"
+        //   important.innerHTML = 'unimportant'
+        }
+      }
+      // if(task.data.urgent){
+      //   if(task.data.urgent=='y'){
+      //     urgent.className = "tag tag-pink"
+      //     urgent.innerHTML = 'urgent'
+      //   }else{
+      //     urgent.className = "tag tag-green"
+      //     urgent.innerHTML = 'unurgent'
+      //   }
+      // }
+      card.appendChild(director);
+      card.appendChild(title);
+      card.appendChild(important)
+      // card.appendChild(urgent)
+      card.appendChild(detail);
+      if(task.data.type){
+        if(task.data.type == 'vc'){
+          console.log('create meetingBtn', task.id)
+          vcBtn.innerHTML = 'Meeting'
+          vcBtn.className = 'vcBtn center'
+          vcBtn.target="_blank";
+          vcBtn.href = `/meeting/${task.id}`
+          card.appendChild(vcBtn)
+        }
+        location.innerHTML = 'at ' + task.data.location;
+        location.className = 'location'
+      }
+      card.appendChild(endat);
+      card.appendChild(location);
+      delBtn.innerHTML = 'complete'
+      delBtn.className = 'delBtn'
+      delBtn.addEventListener("click", async function(e) { 
+        e.preventDefault();
+        deleteTask(task.id)
+        await sleep(1000);
+        location.href = location.href;
+      })
+      card.appendChild(delBtn)
+      console.log('create deletingBtn', task.id)
       msg.appendChild(card);
   
     }
@@ -171,6 +249,13 @@ const getUsersName = async function(){
     let userWrap = document.createElement('div');
     let user = document.createElement('div');
     let a = document.createElement('a');
+    a.target = '_blank'
+    a.style = 'text-decoration: none;'
+    a.href = `/connect/${USER_ID}/${src.data[i].id}`;
+
+    let img = document.createElement('img');
+    let ppath = src.data[i].data.photo.split("/")[1]
+    img.src = `upload/${ppath}.jpg`
     
     let userTime = document.createElement('div');
     user.className = 'user';
@@ -179,6 +264,7 @@ const getUsersName = async function(){
     //   getTaskByName(src.data[i].data.name);
     // });
     a.innerHTML = src.data[i].data.name;
+    userWrap.appendChild(img);
     user.appendChild(a);
     userTime.id = `${src.data[i].data.name.replace(' ', '-')}`
     console.log(src.data[i].data)
@@ -223,7 +309,7 @@ window.onload = function(){
     e.preventDefault();
       createTask();
       console.log("createTask")
-      await sleep(2000);
+      await sleep(1000);
       location.href = location.href;
     });}
 // window.onload = scroll();

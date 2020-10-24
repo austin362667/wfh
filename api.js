@@ -1,6 +1,6 @@
+const { request, response } = require('express')
+const fs = require('fs')
 const db = require("./queries.js")
-
-
 
 // const createUser = async (request, response) => {
 //     let formData = request.body;
@@ -45,6 +45,15 @@ const db = require("./queries.js")
 //     }
   
 //   }
+
+
+const deleteTask = async (request, response) => {
+    let formData = request.body
+    const id = formData.id
+    console.log('delete task id', id)
+    await db.deleteObject(id)
+    await db.deleteAssocs(id, 'ASSIGN_TO')
+}
   
 const createUser = async (request, response) => {
     let formData = request.body
@@ -85,15 +94,17 @@ const createTask = async (request, response) => {
     const subject = formData.subject
     var assignto = formData.assignto
     const detail = formData.detail
-
+    const type = formData.type
     const startat = formData.startat
     const endat = formData.endat
+    const important = formData.important
+    // const urgent = formData.urgent
 
     const location = formData.location
     console.log(startat, endat)
     const sessionUser = request.session.user
     hostId = sessionUser[0].id
-    const taskRes = await db.createObject('TASK', JSON.stringify({"subject" : subject, "detail" : detail, "startat": startat, "endat": endat, "director": sessionUser[0].data.name, "location":location}))
+    const taskRes = await db.createObject('TASK', JSON.stringify({"subject" : subject, "detail" : detail, "startat": startat, "endat": endat, "director": sessionUser[0].data.name, "location":location, "type": type, "important": important}))
     // const hostRes = await db.getUserIdByName(host)
     db.assocAdd(taskRes[0].id, "AUTHORED_BY", hostId)
     console.log('Task ', subject, ' was authored by ', host, ' .')
@@ -160,7 +171,35 @@ const autocompleteFind  = async (request, response) => {
     }
     response.status(200).json(users)
 
+}
 
+const createChat = async (request, response) => {
+    // console.log(request.body)
+    const userA = request.params.userA
+    const userB = request.params.userB
+
+    const cid = await db.createChat(userA, userB)
+      // preResults = await getChatByUsersIds( userA, userB )
+      // var results = preResults
+      console.log(cid)
+      response.redirect(`/chat/${cid}`);
+  
+  
+  }
+
+
+  const getMessagesByPostId = async (request, response) => {
+    const id = request.params.id;
+    const results = await db.getMessagesByPostId(id)
+    console.log(results)
+    response.status(200).json(results)
+
+  }
+
+  const createMessages = async (request, response) => {
+
+    const { pid, user, content } = request.body
+    db.createMessages(pid, user, content)
 
 }
 
@@ -170,5 +209,9 @@ module.exports = {
     getTaskByName,
     getUsersName,
     autocompleteFind,
-    loginUser
+    loginUser,
+    deleteTask,
+    createChat,
+    createMessages,
+    getMessagesByPostId
 }

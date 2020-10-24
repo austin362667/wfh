@@ -95,9 +95,25 @@ app.get('/login', (req, res) => {
 app.post('/api/login_user', jsonParser,  api.loginUser)
 app.post('/api/create_user', file, api.createUser);
 app.post('/api/create_task', file, api.createTask);
+app.post('/api/delete_task', file, api.deleteTask);
 app.post('/api/get_task_by_name', file, api.getTaskByName);
 app.post('/api/get_all_user_name', file, api.getUsersName);
 app.get('/api/autocomplete/:search', api.autocompleteFind);
+
+app.get('/connect/:userA/:userB' , api.createChat)
+  // console.log('room id: ',req.params.room);
+app.get('/chat/:room' , (req, res) => {
+  if (req.session.user && req.cookies.user_sid) {
+    let user = req.session.user
+    console.log('sessionUser: ', user[0]);
+    console.log(user[0].data.name)
+  // console.log('room id: ',req.params.room);
+  res.render('chat', { roomId: req.params.room, username: user[0].data.name })
+}})
+
+// app.get('/api/chats', jsonParser, api.getChats)
+app.get('/api/messages/:id', api.getMessagesByPostId)
+app.post('/api/messages', jsonParser, api.createMessages)
 
 
 /* websocket */
@@ -114,6 +130,44 @@ io.on('connection', socket => {
       })
 
     })
+
+    socket.on('joinGame2', function (ROOM_ID){
+      console.log(ROOM_ID)
+          socket.join(ROOM_ID);// join room
+          // dict.push({
+          //   key:   socket.id,
+          //   value: ROOM_ID
+          // });
+          io.sockets.in(ROOM_ID).emit('joinSuccess', {
+            ROOM_ID});
+          
+        })
+
+})
+
+
+io.on('connection', function (socket) {
+  var addedUser = false;
+  // when the client emits 'new message', this listens and executes
+  socket.on('new message2', function (data,ROOM_ID ) {
+    
+    // console.log("dict", dict);
+    // let room = ROOM_ID;
+    // for(el of dict){
+    // // console.log(socket.username, el);
+
+    //   if(socket.id === el['key']){
+    //     room = el['value'];
+    //   }
+    // }
+    console.log(ROOM_ID,'-',socket.username,': ',data);
+
+    // we tell the client to execute 'new message'
+    socket.in(ROOM_ID).broadcast.emit('new message', {
+      username: socket.username,
+      message: data
+    });
+  });
 
 })
 
