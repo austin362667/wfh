@@ -90,7 +90,7 @@ console.log(ROOM_ID)
           message: message
         });
         // tell server to execute 'new message' and send along one parameter
-        socket.emit('new message2', message, ROOM_ID);
+        socket.emit('new message2', message, username, ROOM_ID);
         Post.messages();
         $inputMessage.focus();
       }

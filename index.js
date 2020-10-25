@@ -154,7 +154,7 @@ io.on('connection', socket => {
 io.on('connection', function (socket) {
   var addedUser = false;
   // when the client emits 'new message', this listens and executes
-  socket.on('new message2', function (data,ROOM_ID ) {
+  socket.on('new message2', function (data, name, ROOM_ID ) {
     
     // console.log("dict", dict);
     // let room = ROOM_ID;
@@ -165,11 +165,11 @@ io.on('connection', function (socket) {
     //     room = el['value'];
     //   }
     // }
-    console.log(ROOM_ID,'-',socket.username,': ',data);
+    console.log(ROOM_ID,'-',name,': ',data);
 
     // we tell the client to execute 'new message'
     socket.in(ROOM_ID).broadcast.emit('new message', {
-      username: socket.username,
+      username: name,
       message: data
     });
   });
