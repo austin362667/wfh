@@ -171,7 +171,9 @@ function addVideoStream(video, stream) {
   const person = document.createElement('div')
   person.className = 'person'
   // container.appendChild(person)
-  person.appendChild(video)
+  if(video){
+    person.appendChild(video)
+  }
   videoGrid.append(person)
 }
 
