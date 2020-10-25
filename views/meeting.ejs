@@ -44,7 +44,8 @@
   </style>
 </head>
 <body>
-	<p id="msg">連線中，請稍後約15秒~</p>
+  <p id="msg">連線中，請稍後約15秒~</p>
+  <button onclick="addPostShow()" id="addPostShowBtn" class="center">+</button>
   <div id="video-grid"></div>
   <div class="secondbody">
     <div class="middle">
@@ -172,7 +173,24 @@ function addVideoStream(video, stream) {
 
 
 </script>
+<script>
+    function addPostShow() {
+    let addPost = document.querySelector('#post');
+    let showBtn = document.querySelector('#addPostShowBtn');
+    if(showBtn.innerHTML === '+'){
+      addPost.style.display = 'block';
+      showBtn.innerHTML = '-';
+      // console.log('addPostShow');
 
+    }else{
+      addPost.style.display = 'none';
+      showBtn.innerHTML = '+';
+      // console.log('addPostUnShow');
+
+      }
+    }
+
+</script>
 <script>
   async function createTask(){
 
@@ -216,4 +234,5 @@ var res = await window.fetch("/api/create_task", {
 }
 
 </script>
+
 </html>
