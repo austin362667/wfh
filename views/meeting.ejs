@@ -52,19 +52,49 @@
     </div>
 </div>
 <div class="tasknote">
-    <div style="font-size: x-large;font-weight: bold;">Today's agenda</div>
-    <div><button type="button">Task1</button> Supply Chain</div>
-    <div class="box"> content</div>
-    <div>To @</div>
-    <div>Deadkline 2021/09/21 </div>
-    <div><button type="button">Task1</button> Supply Chain</div>
-    <div class="box"> content</div>
-    <div>To @</div>
-    <div>Deadkline 2021/09/21 </div>
-    <div><button type="button">Task1</button> Supply Chain</div>
-    <div class="box"> content</div>
-    <div>To @</div>
-    <div>Deadkline 2021/09/21 </div>
+  <form>
+    <div>
+      <input type="text" name="subject" id="subject" placeholder="Subject"/>
+    </div>
+    <div>
+      <label>Type:</label>
+      <select type="select" name="type" id="type">
+        <option value="om">Office Meeting</option>
+        <option value="vc">Video Conference</option>
+        <option value="tsk">Task</option>
+      </select>
+    </div>
+    <div>
+      <input name="detail" id="detail" style="resize: none;  height: 5em;" placeholder="Detail"></input>
+      <textarae />
+    </div>
+    <div>
+      <input ype="text" name="assignto" id="assignto" placeholder="Assign To ... use '@'"/>
+    </div>
+    <div>
+      <input type="text" name="location" id="location" placeholder="Location"/>
+    </div>
+    <div>
+      <label>Start At:</label>
+      <input type="date" name="startat" id="startat"/>
+    </div>
+    <div>
+      <label>End At:</label>
+      <input type="date" name="endat" id="endat"/>
+    </div>
+    <div>
+      <label>Priority:</label>
+      <select type="select" name="important" id="important">
+        <option value="y">Important</option>
+        <option value="n">Medium</option>
+      </select>
+      <!-- <select type="select" name="urgent" id="urgent">
+        <option value="y">Urgent</option>
+        <option value="n">Not Urgent</option>
+      </select> -->
+    </div>
+    <button id="createTask">Assign</button>
+  </form>
 
 </div>
   <!-- <a href='/video' style="text-align:center;display: flex; justify-content: center;"><i class="fa fa-times rematch" ></i></a> -->
@@ -139,6 +169,50 @@ function addVideoStream(video, stream) {
   videoGrid.append(container)
 }
 
+
+</script>
+
+<script>
+  async function createTask(){
+
+let subject = document.querySelector('#subject').value;
+let assigntoUsers = document.querySelector('#assignto').value;
+let detail = document.querySelector('#detail').value;
+let type= document.querySelector('#type').value;
+let startat = document.querySelector('#startat').value;
+let endat = document.querySelector('#endat').value;
+let location = document.querySelector('#location').value;
+let important = document.querySelector('#important').value;
+// let urgent = document.querySelector('#urgent').value;
+
+let host = "Austin";
+var myRe = /(@[A-Z][a-z]+)/g;
+var myArray = myRe.exec(assigntoUsers);
+console.log('assignto', myArray.input)
+var formData = new FormData();
+formData.append('host', host);
+formData.append('subject', subject);
+formData.append('assignto', myArray.input);
+formData.append('detail', detail);
+formData.append('type', type);
+formData.append('startat', startat);
+formData.append('endat', endat);
+formData.append('important', important);
+// formData.append('urgent', urgent);
+
+
+formData.append('location', location);
+
+var res = await window.fetch("/api/create_task", {
+  body: formData,
+  method: 'POST',
+  redirect:"follow",
+  });
+
+
+  console.log('createTaskres', res.ok);
+
+}
 
 </script>
 </html>
