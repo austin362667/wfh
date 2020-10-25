@@ -11,11 +11,11 @@
   <!-- <script src="script.js"></script> -->
   <title>RATA 線上會議</title>
   <style>
-    #video-grid {
+    /* #video-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, auto-fill);
       grid-auto-rows: 300px;
-    }
+    } */
     @media only screen and (min-width: 768px) {
       #video-grid {
       display: grid;
@@ -45,7 +45,7 @@
 <body>
   <div class="container">
     <div id="videos">
-      <div id="videosWrapper">
+      <div id="video-grid">
           <div id="localVideoWrap" class='videoWrap'>
           </div>
       </div>
@@ -63,7 +63,7 @@ const myPeer = new Peer()
 const lvWrp = document.getElementById('localVideoWrap')
 const myVideo = document.createElement('video')
 lvWrp.appendChild(myVideo)
-myVideo.className = 'videoBox'
+// myVideo.className = 'videoBox'
 myVideo.id = 'localVideo'
 myVideo.muted = true
 const peers = {}
@@ -76,7 +76,6 @@ navigator.mediaDevices.getUserMedia({
   myPeer.on('call', call => {
     call.answer(stream)
     const video = document.createElement('video')
-    video.className = 'videoBox'
     call.on('stream', userVideoStream => {
       addVideoStream(video, userVideoStream)
     })
@@ -101,7 +100,6 @@ myPeer.on('open', id => {
 function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream)
   const video = document.createElement('video')
-  video.className = 'videoBox'
   call.on('stream', userVideoStream => {
     addVideoStream(video, userVideoStream)
   })
