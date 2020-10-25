@@ -11,7 +11,7 @@
     width: 200px;
 	height: 200px;
 	line-height: 200px;
-    border: 1px dashed red;
+    /* border: 1px dashed red; */
     background-color: blue;
     border-radius: 150px;
     text-align: center;
@@ -38,7 +38,7 @@
     width: 200px;
 	height: 200px;
 	line-height: 200px;
-	border: 1px dashed red;
+	/* border: 1px dashed red; */
     border-radius: 150px;
     text-align: center;
     margin-left: 30px;
