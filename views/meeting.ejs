@@ -76,6 +76,7 @@ navigator.mediaDevices.getUserMedia({
   myPeer.on('call', call => {
     call.answer(stream)
     const video = document.createElement('video')
+    video.className = 'videoBox'
     call.on('stream', userVideoStream => {
       addVideoStream(video, userVideoStream)
     })
@@ -100,6 +101,7 @@ myPeer.on('open', id => {
 function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream)
   const video = document.createElement('video')
+  video.className = 'videoBox'
   call.on('stream', userVideoStream => {
     addVideoStream(video, userVideoStream)
   })
@@ -115,7 +117,13 @@ function addVideoStream(video, stream) {
   video.addEventListener('loadedmetadata', () => {
     video.play()
   })
-  videoGrid.append(video)
+  const container = document.createElement('div')
+  container.className = 'container'
+  const person = document.createElement('div')
+  person.className = 'person'
+  container.appendChild(person)
+  person.appendChild(video)
+  videoGrid.append(container)
 }
 
 
