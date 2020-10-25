@@ -234,5 +234,96 @@ var res = await window.fetch("/api/create_task", {
 }
 
 </script>
+<script>
+  window.onload = function(){
+  const createTaskBtn = document.querySelector("#createTask");
+  createTaskBtn.addEventListener('click',  async function(e){
+    e.preventDefault();
+      createTask();
+      console.log("createTask")
+      await sleep(1000);
+      location.href = location.href;
+    });}
+// window.onload = scroll();
+
+let chk = false;
+var n =  0;
+document.getElementById("assignto").addEventListener("keyup", function(e) {
+  if(e.key === '@'){
+    console.log('on')
+    chk = true;
+
+  }
+  }, false);
+
+
+$("#assignto").autocomplete({
+  minLength: 0,
+  source: function (request, response) {
+      $.ajax({
+          url: '/api/autocomplete/' + request.term.split('@')[request.term.split('@').length - 1], //
+          type: "Get",
+          dataType: "json",
+          // data: {
+          //     key: request.term    //Name欄位輸入的資訊傳給後端
+          // },
+          //成功取得資料後用Map來整理回傳的資料
+          success: function (data) { 
+              response($.map(data, function (item) {
+                  console.log(item); //練習時印出來方便觀看資料的長相
+                  return {
+                      // label和value是基本參數
+                      label: item,  //列表所顯示的文字
+                      value: item, 	//列表選項的值
+                      // phone: item.phone,	//自訂義要多帶的值
+                      // email: item.email	//自訂義要多帶的值
+                  };
+              }));
+          }
+      });
+  },
+//focus參數事件介紹 : 在下拉選單匹配時如果滑鼠有焦點到會觸發事件
+//下方是指當使用者只是焦點到某個選項就將名子帶#name輸入框中
+  focus: function (event, ui) {
+    if(chk){
+      let str = $("#assignto").val()
+      // var regexp = new RegExp('#([^\\s]*)','g');
+      // let tags = str.replace(regexp, 'REPLACED');
+      var pos = str.lastIndexOf('@');
+      const sstr = str.slice(0, pos);
+      let estr = str.slice(pos, str.length - 1);
+      console.log('1', sstr);
+      console.log('2', estr);
+
+      estr = '@' + ui.item.label;
+      $("#assignto").val(sstr+estr);
+      chl = false;
+    }
+      return false;
+  },
+//select參數事件介紹 : 使用者選擇下拉式某項目後觸發事件
+//當使用者選擇某項目後自動將所有的值帶進輸入框中
+  select: function (event, ui) {
+    if(chk){
+      let str = $("#assignto").val()
+      // var regexp = new RegExp('#([^\\s]*)','g');
+      // let tags = str.replace(regexp, 'REPLACED');
+      var pos = str.lastIndexOf('@');
+      const sstr = str.slice(0, pos);
+      let estr = str.slice(pos, str.length - 1);
+      console.log('1', sstr);
+      console.log('2', estr);
+
+      estr = '@' + ui.item.label;
+      $("#assignto").val(sstr+estr);
+      chl = false;
+    }
+      // $("#contactPhone").val(ui.item.phone);
+      // $("#contactEMail").val(ui.item.email);
+      return false;
+  }
+});
+
+</script>
 
 </html>
