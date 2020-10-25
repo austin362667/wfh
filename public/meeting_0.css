@@ -2,8 +2,8 @@
     display: flex; /*疊下去*/
     flex-direction: row; /*列 */
     flex-wrap: nowrap; /*繼續排下去*/
-    width: 1500px;
-	height: 300px; 
+    width: auto;
+	height: 180px; 
     position: relative;
     }
 .host{
@@ -11,7 +11,7 @@
     width: 200px;
 	height: 200px;
 	line-height: 200px;
-    /* border: 1px dashed red; */
+    border: 1px dashed red;
     background-color: blue;
     border-radius: 150px;
     text-align: center;
@@ -35,11 +35,11 @@
 
 .person{
     display: inline-block;
-    width: 200px;
-	height: 200px;
-	line-height: 200px;
+    width: 160px;
+	height: 160px;
+	line-height: 160px;
 	/* border: 1px dashed red; */
-    border-radius: 150px;
+    border-radius: 160px;
     text-align: center;
     margin-left: 30px;
     margin-right: 30px;
@@ -49,23 +49,25 @@
 .secondbody{
     display: inline-block;
     overflow: auto;
-    width:1450px;
-    height:600px;
-
+    margin: auto;
+    width:auto;
+    height:auto;
+    margin-left: 200px;
 }
 .middle{
-    width:1000px;
-    height:600px;
+    width:auto;
+    height:auto;
     overflow: auto;
     margin-top: 20px;
-    background-color: lightpink;
+    background-color: white;
     justify-content: center;
     float: left;
-    align-items: flex-start;
+    align-items: center;
 }
 .pptmid{
     font-size: 100px;
     font-weight: bold;
+    
 }
 /*.microphone{
     position: absolute;
