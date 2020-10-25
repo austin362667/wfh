@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
+<script src="d3.js"></script>
+<head>
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <div style=" display: flex; /*疊下去*/
+    flex-direction: row; /*列 */
+    flex-wrap: nowrap; /*繼續排下去*/ ;width: 600px;height: 400px;">
+    <div id="chart"></div>
+    <div id="chart2" style="margin-left: 200px;"></div>
+    </div>
+    <div style=" display: flex; /*疊下去*/
+    flex-direction: row; /*列 */
+    flex-wrap: nowrap; /*繼續排下去*/ ;width: 600px;height: 400px;">
+    <div id="chart3"></div>
+    <div id="chart4" style="margin-left: 200px;"></div>
+    </div>
+
+
+
+</body>
+<script>
+    var chart = c3.generate({
+        bindto: '#chart',
+        data: {
+            x: 'x',
+            columns: [
+                ['x',22,23,24, 25, 26, 27, 28,29, 30],
+                ['employee capacity utilization rate', 0.5 , 0.166666667, 1.384615385 , 3.157894737
+                    , 1.764705882, 1.434782609 , 0.49122807, 0.786885246, 0.671641791
+                ]
+            ]
+        }
+    });
+
+    var chart = c3.generate({
+        bindto: '#chart2',
+        data: {
+            x: 'x',
+            columns: [
+                ['x',22,23,24, 25, 26, 27, 28,29, 30],
+                ['schedule variance (hour)', 10,5,3,12,15,17,13,8,9,11]
+            ]
+        }
+    });
+
+    var chart3 = c3.generate({
+        bindto: '#chart3',
+        data: {
+            x: 'x',
+            columns: [
+                ['x', 26, 27, 28,29, 30],
+                ['tasks',12,11,4,6,5],
+                ['tasks completed',17,13,8,9,11]
+        ]
+        }
+    });
+
+    var chart4 = c3.generate({
+        bindto: '#chart4',
+        data: {
+            x: 'x',
+            columns: [
+                ['x',22,23,24, 25, 26, 27, 28,29, 30],
+                ['employee engagement', 1,0.666666667,0.111111111,0.5,1.363636364,1.714285714,1.375
+                ,0.444444444,0.6,0.71428571
+
+                ]
+            ]
+        }
+    });
+
+// setTimeout(function () {
+//     chart.load({
+//         bindto: '#chart',
+//         columns: [
+//         ['schedule variance (hour)', 10,5,3,12,15,17,13,8,9,11]
+//         ]
+//     });
+// }, 2000);
+
+// setTimeout(function () {
+//     chart2.load({
+//         columns: [
+//         ['employee engagement', 1,0.666666667,0.111111111,0.5,1.363636364,1.714285714,1.375
+//                 ,0.444444444,0.6,0.71428571
+//                 ]
+//         ]
+//     });
+// }, 2000);
+
+// setTimeout(function () {
+//     chart4.load({
+//         columns: [
+//         ['employee capacity utilization rate', 0.5 , 0.166666667, 1.384615385 , 3.157894737
+//                     , 1.764705882, 1.434782609 , 0.49122807, 0.786885246, 0.671641791
+//                 ]
+//         ]
+//     });
+// }, 1500);
+
+// setTimeout(function () {
+//     chart3.unload({
+//         ids: 'data2'
+//     });
+// }, 2000);
+
+</script>

@@ -75,6 +75,7 @@ app.get('/', (req, res) => {
   }
 });
 
+
 app.get('/index', (req, res) => {
   if (req.session.user && req.cookies.user_sid) {
     res.render('index', { userId: req.session.user[0].id })
@@ -90,6 +91,10 @@ app.get('/meeting/:room', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/login.html');
+  })
+
+  app.get('/dashboard', (req, res) => {
+    res.sendFile(__dirname + '/public/d3.html');
   })
 
 app.post('/api/login_user', jsonParser,  api.loginUser)
